@@ -37,8 +37,7 @@ def issue():
         pdf = MIMEBase('application', 'pdf')
         pdf.set_payload(file.read())
         encoders.encode_base64(pdf)
-        pdf.add_header('Content-Decomposition',
-                       'attachment', filename=pdfname)
+        pdf.add_header('Content-Decomposition', 'attachment', filename=pdfname)
 
         msg = MIMEMultipart()
 

@@ -79,7 +79,17 @@ class Crawler:
 
         url = os.environ.get("URL")
         options = Options()
-        options.headless = True
+        options.headless = False
+        options.add_experimental_option(
+            'prefs',
+            {
+                "download.default_directory": f"{os.getcwd()}/documents",
+                "download.prompt_for_download": False,
+                "download.directory_upgrade": True,
+                "safebrowsing.enabled": True,
+                "plugins.always_open_pdf_externally": True,
+            }
+        )
         self.driver = webdriver.Chrome(
             os.environ.get('CHROMEDRIVER_PATH'), options=options)
 
@@ -112,14 +122,15 @@ class Crawler:
 
         sleep(1)
 
-        return {
-            'code': self.driver.find_element_by_id("icodigo").get_attribute('value'),
-            'quantity': self.driver.find_element_by_id("qynfitensqtd").get_attribute('value'),
-            'unit_value': self.driver.find_element_by_id("qynfitensvlrunitario").get_attribute('value'),
-            'timestamp': datetime.now().isoformat()
-        }
+        self.gen_nfe()
 
-        # self.issue()
+        sleep(1)
+
+        nfe = self.issue()
+
+        self.driver.close()
+
+        return nfe
 
     def fill_form(self):
         service = self.driver.find_element_by_id("qyidatividade")
@@ -129,7 +140,7 @@ class Crawler:
             self.driver.find_element_by_id(
                 field['id']).send_keys(field['value'])
 
-    def issue(self):
+    def gen_nfe(self):
         note_total = self.driver.find_element_by_id("qynfitensvlrtotal")
         insert_note = self.driver.find_element_by_id("imagebutton1Imagem")
         confirm_note = self.driver.find_element_by_id("imagebutton4Texto")
@@ -138,3 +149,10 @@ class Crawler:
         insert_note.click()
         sleep(1)
         confirm_note.click()
+
+    def issue(self):
+        issue_button = self.driver.find_element_by_link_text('Sim')
+
+        return {
+            'emitted_at': datetime.now().isoformat()
+        }
