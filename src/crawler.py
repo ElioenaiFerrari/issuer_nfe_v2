@@ -126,7 +126,7 @@ class Crawler:
 
         sleep(1)
 
-        nfe = self.issue()
+        nfe = self.issue_nfe()
 
         self.driver.close()
 
@@ -150,7 +150,7 @@ class Crawler:
         sleep(1)
         confirm_note.click()
 
-    def issue(self):
+    def issue_nfe(self):
         issue_button = self.driver.find_element_by_link_text('Sim')
 
         return {
