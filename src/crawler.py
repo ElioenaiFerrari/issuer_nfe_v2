@@ -3,6 +3,7 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
+from datetime import datetime
 
 
 class Crawler:
@@ -78,7 +79,7 @@ class Crawler:
 
         url = os.environ.get("URL")
         options = Options()
-        options.headless = False
+        options.headless = True
         self.driver = webdriver.Chrome(
             os.environ.get('CHROMEDRIVER_PATH'), options=options)
 
@@ -115,6 +116,7 @@ class Crawler:
             'code': self.driver.find_element_by_id("icodigo").get_attribute('value'),
             'quantity': self.driver.find_element_by_id("qynfitensqtd").get_attribute('value'),
             'unit_value': self.driver.find_element_by_id("qynfitensvlrunitario").get_attribute('value'),
+            'timestamp': datetime.now().isoformat()
         }
 
         # self.issue()
