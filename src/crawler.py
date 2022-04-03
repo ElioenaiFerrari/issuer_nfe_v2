@@ -116,6 +116,7 @@ class Crawler:
         return {
             'code': self.driver.find_element_by_id("icodigo").get_attribute('value'),
             'quantity': self.driver.find_element_by_id("qynfitensqtd").get_attribute('value'),
+            'unit_value': self.driver.find_element_by_id("qynfitensvlrunitario").get_attribute('value'),
         }
 
         # self.issue()
