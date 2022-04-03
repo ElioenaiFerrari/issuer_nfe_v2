@@ -8,59 +8,59 @@ from selenium.webdriver.support.ui import Select
 
 
 class Crawler:
-    def __init__(self):
+    def __init__(self, user, company, note):
         self.company = [
             {
                 'id': 'qycnpjcpf',
-                'value': os.environ.get("COMPANY_CNPJ")
+                'value': company['cnpj']
             },
             {
                 'id': 'qynome',
-                'value': os.environ.get("COMPANY_NAME")
+                'value': company['name']
             },
             {
                 'id': 'input8',
-                'value': os.environ.get("COMPANY_ZIP_CODE")
+                'value': company['zip_code']
             },
             {
                 'id': 'input4',
-                'value': os.environ.get("COMPANY_DISTRICT")
+                'value': company['district']
             },
             {
                 'id': 'input5',
-                'value': os.environ.get("COMPANY_NAME")
+                'value': company['name']
             },
             {
                 'id': 'input2',
-                'value': os.environ.get("COMPANY_CITY")
+                'value': company['city']
             },
             {
                 'id': 'input3',
-                'value': os.environ.get("COMPANY_STATE")
+                'value': company['state']
             },
             {
                 'id': 'input6',
-                'value': os.environ.get("COMPANY_STREET")
+                'value': company['street']
             },
             {
                 'id': 'input10',
-                'value': os.environ.get("COMPANY_EMAIL")
+                'value': company['email']
             },
             {
                 'id': 'qyrginscrestadual',
-                'value': os.environ.get("COMPANY_CNPJ")
+                'value': company['cnpj']
             },
             {
                 'id': 'icodigo',
-                'value': os.environ.get("NOTE_CODE")
+                'value': note['code']
             },
             {
                 'id': 'qynfitensqtd',
-                'value': os.environ.get("NOTE_QUANTITY")
+                'value': note['quantity']
             },
             {
                 'id': 'qynfitensvlrunitario',
-                'value': os.environ.get("NOTE_VALUE")
+                'value': note['unit_value']
             },
 
         ]
@@ -68,13 +68,15 @@ class Crawler:
         self.user = [
             {
                 'id': 'usuario',
-                'value': os.environ.get("USER_CNPJ")
+                'value': user['username']
             },
             {
                 'id': 'senha',
-                'value': os.environ.get("USER_PASS")
+                'value': user['password']
             }
         ]
+
+        self.service_code = user['service_code']
 
         url = os.environ.get("URL")
         options = Options()
@@ -85,7 +87,6 @@ class Crawler:
         self.driver.get(url)
 
     def signin(self):
-
         for field in self.user:
             self.driver.find_element_by_id(
                 field['id']).send_keys(field['value'])
@@ -112,11 +113,16 @@ class Crawler:
 
         sleep(1)
 
-        self.issue()
+        return {
+            'code': self.driver.find_element_by_id("icodigo").get_attribute('value'),
+            'quantity': self.driver.find_element_by_id("qynfitensqtd").get_attribute('value'),
+        }
+
+        # self.issue()
 
     def fill_form(self):
         service = self.driver.find_element_by_id("qyidatividade")
-        Select(service).select_by_value(os.environ.get("USER_SERVICE_CODE"))
+        Select(service).select_by_value(self.service_code)
 
         for field in self.company:
             self.driver.find_element_by_id(
