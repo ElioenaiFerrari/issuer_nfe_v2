@@ -110,7 +110,9 @@ class Crawler:
 
         self.fill_form()
 
-        sleep(10)
+        sleep(1)
+
+        self.issue()
 
     def fill_form(self):
         service = self.driver.find_element_by_id("qyidatividade")
@@ -120,6 +122,7 @@ class Crawler:
             self.driver.find_element_by_id(
                 field['id']).send_keys(field['value'])
 
+    def issue(self):
         note_total = self.driver.find_element_by_id("qynfitensvlrtotal")
         insert_note = self.driver.find_element_by_id("imagebutton1Imagem")
         confirm_note = self.driver.find_element_by_id("imagebutton4Texto")
