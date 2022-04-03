@@ -1,7 +1,5 @@
 import os
-import sys
 from time import sleep
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
