@@ -12,7 +12,7 @@
 
 ## How to use?
 
-<span style="color: orange;">POST</span> {host}/api/v2/issue
+**POST** _{host}/api/v2/issue_
 
 body:
 
