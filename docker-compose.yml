@@ -2,20 +2,22 @@ version: '3'
 
 services:
   server:
+    platform: linux/amd64
     build: .
     container_name: server
     hostname: server
     depends_on:
       - mailhog
+    expose:
+      - '3000'
     ports:
-      - '80:80'
+      - '3000:3000'
     environment:
       - URL=http://sefa.serra.es.gov.br:8080/tbw/loginNFEContribuinte.jsp?execobj=NFERelacionados
-      - FLASK_APP=main.py
-      - FLASK_ENV=development
-      - FLASK_DEBUG=1
+      - CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
 
   mailhog:
+    platform: linux/amd64
     image: mailhog/mailhog
     container_name: mailhog
     hostname: mailhog

@@ -80,7 +80,7 @@ class Crawler:
         options = Options()
         options.headless = False
         self.driver = webdriver.Chrome(
-            "/Users/elioenaiferrari/Documents/drivers/chromedriver", options=options)
+            os.environ.get('CHROMEDRIVER_PATH'), options=options)
 
         self.driver.get(url)
 
