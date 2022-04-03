@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='issuer_nfe',
-    version='1.0',
+    version='2.0',
     description='Issuer NFE',
     author='Elioenai Ferrari',
     author_email="elioenaiferrari@gmail.com",
@@ -10,5 +10,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'flask',
+        'python-dotenv',
+        'selenium',
+        'flask-cors'
     ]
 )

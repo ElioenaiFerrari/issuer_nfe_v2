@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    container_name: server
+    hostname: server
+    depends_on:
+      - mailhog
+    ports:
+      - '80:80'
+    environment:
+      - URL=http://sefa.serra.es.gov.br:8080/tbw/loginNFEContribuinte.jsp?execobj=NFERelacionados
+      - FLASK_APP=main.py
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    hostname: mailhog
+    logging:
+      driver: 'none' # disable saving logs
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+
