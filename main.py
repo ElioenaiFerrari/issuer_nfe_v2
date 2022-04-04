@@ -1,6 +1,7 @@
 
 from email import encoders
 from email.mime.base import MIMEBase
+import os
 from dotenv import load_dotenv
 import json
 from flask import Flask, request, Response
@@ -43,11 +44,15 @@ def issue():
 
         msg["From"] = on_done["from"]
         msg["To"] = on_done["to"]
-        msg["Subject"] = on_done["subject"]
+        msg["Subject"] = f'{on_done["collaborator"]} - {on_done["subject"]}'
 
         msg.attach(pdf)
 
-        s = smtplib.SMTP('0.0.0.0', 1025)
+        s = smtplib.SMTP(os.environ.get('MAILER_HOST'),
+                         os.environ.get('MAILER_PORT'))
+
+        s.login(os.environ.get('MAILER_USER'), os.environ.get('MAILER_PASS'))
+
         s.sendmail(msg['From'], msg['To'], msg.as_string())
 
     response = Response(

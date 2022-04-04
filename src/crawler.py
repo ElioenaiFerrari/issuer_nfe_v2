@@ -79,7 +79,7 @@ class Crawler:
 
         url = os.environ.get("URL")
         options = Options()
-        options.headless = False
+        options.headless = True
         options.add_experimental_option(
             'prefs',
             {
@@ -154,5 +154,6 @@ class Crawler:
         issue_button = self.driver.find_element_by_link_text('Sim')
 
         return {
-            'emitted_at': datetime.now().isoformat()
+            'emitted_at': datetime.now().isoformat(),
+            'unit_value': self.driver.find_element_by_id('qynfitensvlrunitario').get_attribute('value')
         }
