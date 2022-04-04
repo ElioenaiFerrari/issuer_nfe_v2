@@ -124,7 +124,7 @@ class Crawler:
 
         self.gen_nfe()
 
-        sleep(1)
+        sleep(5)
 
         nfe = self.issue_nfe()
 
