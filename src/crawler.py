@@ -122,7 +122,7 @@ class Crawler:
 
         sleep(1)
 
-        self.gen_nfe()
+        # self.gen_nfe()
 
         sleep(5)
 
@@ -151,7 +151,7 @@ class Crawler:
         confirm_note.click()
 
     def issue_nfe(self):
-        issue_button = self.driver.find_element_by_link_text('Sim')
+        # issue_button = self.driver.find_element_by_link_text('Sim')
 
         return {
             'emitted_at': datetime.now().isoformat(),

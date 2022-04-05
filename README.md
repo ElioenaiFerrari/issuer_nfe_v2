@@ -40,7 +40,7 @@ body:
     "unit_value": 1800
   },
   "on_done": {
-    "from": "",
+    "collaborator": "",
     "to": "",
     "subject": "Hi, this is  my NFe"
   }

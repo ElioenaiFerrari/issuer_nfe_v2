@@ -1,4 +1,5 @@
 
+from datetime import datetime
 from email import encoders
 from email.mime.base import MIMEBase
 import os
@@ -38,22 +39,28 @@ def issue():
         pdf = MIMEBase('application', 'pdf')
         pdf.set_payload(file.read())
         encoders.encode_base64(pdf)
-        pdf.add_header('Content-Decomposition', 'attachment', filename=pdfname)
+        date = datetime.now().strftime('%d-%m-%Y')
+        collaborator = on_done["collaborator"].lower().replace(" ", "-")
+        pdf.add_header('Content-Disposition', 'attachment',
+                       filename=f'{date}_{collaborator}.pdf')
 
         msg = MIMEMultipart()
 
-        msg["From"] = on_done["from"]
+        msg["From"] = on_done["collaborator"]
         msg["To"] = on_done["to"]
-        msg["Subject"] = f'{on_done["collaborator"]} - {on_done["subject"]}'
+        msg["Subject"] = on_done["subject"]
 
         msg.attach(pdf)
 
         s = smtplib.SMTP(os.environ.get('MAILER_HOST'),
-                         os.environ.get('MAILER_PORT'))
+                         int(os.environ.get('MAILER_PORT')))
+        s.starttls()
 
         s.login(os.environ.get('MAILER_USER'), os.environ.get('MAILER_PASS'))
 
         s.sendmail(msg['From'], msg['To'], msg.as_string())
+
+        s.quit()
 
     response = Response(
         mimetype="application/json",
